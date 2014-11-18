@@ -1,0 +1,36 @@
+//var config = require('./config/config');
+var db = require('./db/db');
+var modem = require('./models/modem');
+var job = require('./models/job');
+//var msg = require('./models/mensaje');
+
+
+modem.find_mdm_lstuse(function(modemdata){
+	console.log(modemdata);
+});
+
+var n=0;
+for (i=1;i<20;i++){
+
+if(n>4){n=0};
+
+var nom = new Array(5);
+nom=['richi','conde','asdf','culo33','perro']
+
+
+jobdata={"job":i,
+         "usr":nom[n],
+         "inicio":10000,
+         "coment":"Mensajes de publicidad",
+         "total_msg":100,
+         "env_ok":0,
+         "err_dst":0,
+         "status":0
+         };
+
+job.insert_job(jobdata,function(resultado){
+        console.log(resultado);
+});
+n++;
+}
+
