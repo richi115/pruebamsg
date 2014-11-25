@@ -28,11 +28,13 @@ exports.insert_job = function(data,callback){
 
 
 exports.load_job = function(data,callback){
-        var ahora=parseInt(Date.now());
+    var ahora=parseInt(Date.now());
 	Job.find({inicio:{$lt:ahora},null,{sort: {inicio: -1}},function(err,data){
 		callback(data);
 	})
 }
+
+exports.update_job = function(
 
 
 /*
