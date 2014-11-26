@@ -7,13 +7,16 @@ var mdmSchema = new Schema({
 	sta: Boolean,			//estado del modem (ok, error)
 	imei: Number,			//imei del modem
 	mdl: String,			//modelo del modem
-	lst_use: Number,			//timestamp del ultimo modem
-	grp: Number			//grupo del modem
+	lst_use: Number,		//timestamp del ultimo modem
+	grp: Number				//grupo del modem
 });
 
 Mdm = mongoose.model('Mdm',mdmSchema);
 
-exports.insert_mdm = function(data,callback){
+exports.insert_mdm = function(tty,imei,mdl,grp,callback){
+
+	data = {tty:tty,sta:true,imei:imei,mdl:mdl,lst_use:0,grp:grp};
+
 	Mdm.create(data,function(err, data){
 	if(err){
 		console.log(err);
@@ -39,8 +42,8 @@ exports.find_mdm_imei = function(imei,callback){
 
 
 exports.find_mdm_lstuse = function(callback){
-        var ahora=parseInt(Date.now())+config.DELAY_MDM;
-	Mdm.findOne({lst_use:{$lt:ahora}},'tty',{sort: {lst_use: -1}},function(err,data){
+    var ahora=parseInt(Date.now())+config.DELAY_MDM;
+	Mdm.findOne({lst_use:{$lt:ahora}},'tty imei',{sort: {lst_use: -1}},function(err,data){
 		callback(data);
 	})
 }

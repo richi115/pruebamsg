@@ -16,7 +16,10 @@ var msgSchema = new Schema({
 
 Msg = mongoose.model('Msg',mdmSchema);
 
-exports.insert_msg = function(data,callback){
+exports.insert_msg = function(dst,msg,job,metodo,callback){
+	
+	data = {dst:dst,msg:msg,sta:0,h_in:parseInt(Date.now()),h_out:0,job:job,imei:0,metodo:metodo};
+		
 	Msg.create(data,function(err, data){
 	if(err){
 		console.log(err);
@@ -29,3 +32,5 @@ exports.insert_msg = function(data,callback){
 };
 
 exports.get_next_msg(job_num, callback){};
+
+exports.update_msg(h_out,imei,sta){};
