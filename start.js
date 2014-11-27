@@ -1,13 +1,18 @@
 //var config = require('./config/config');
 var db = require('./db/db');
 var modem = require('./models/modem');
-var job = require('./models/job');
-//var msg = require('./models/mensaje');
+//var job = require('./models/job');
+var msg = require('./models/mensaje');
 
 
-modem.find_mdm_lstuse(function(modemdata){
-	console.log(modemdata);
+msg.insert_msg("+3455555","super nuevo",14,function(msgdata){
+        console.log("insert_msg");
+	console.log(msgdata);
 });
 
 
 
+msg.get_next_msg(14, function(msgdata){
+        console.log("get_next_msg");
+	console.log(msgdata);
+});

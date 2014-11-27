@@ -4,13 +4,14 @@ var Schema = mongoose.Schema;
 
 var jobSchema = new Schema({
 	job: Number,		//nro del job
-	usr: String,		//el usuario que creo el jbob
+	usr: String,		//el usuario que creo el job
 	inicio: Number,		//el usuario indica a partir de cuando se empiezan a enviar los msgs
 	coment: String,		//comentario del usuario
 	total_msg: Number,	//total de mensajes en el job
 	env_ok: Number,		//mensajes enviados OK
 	err_dst: Number,	//mensajes con error de destino
-	status: Number		//estado del proceso (pendiente(0), activo(1), finalizado(2))
+	status: Number,		//estado del proceso (pendiente(0), activo(1), finalizado(2))
+	metodo: Number		//plat. de envio (plat. de distintos paises, diferenter carriers, etc)
 });
 
 Job = mongoose.model('Job',jobSchema);
