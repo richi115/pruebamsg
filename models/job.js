@@ -16,7 +16,10 @@ var jobSchema = new Schema({
 
 Job = mongoose.model('Job',jobSchema);
 
-exports.insert_job = function(data,callback){
+exports.insert_job = function(usr,inicio,coment,total_msg,,,,callback){
+
+	var jobdata={usr:usr,inicio:inicio,coment:coment,
+	
 	Job.create(data,function(err, data){
 	if(err){
 		console.log(err);

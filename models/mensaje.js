@@ -21,7 +21,6 @@ exports.insert_msg = function(dst,msg,job,callback){
 	Msg.create(data,function(err, data){
 	if(err){
 		console.log(err);
-		return false;
             }
 	else{
 		callback(data);
