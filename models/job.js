@@ -3,9 +3,9 @@ var config = require('../config/config');
 var Schema = mongoose.Schema;
 
 var jobSchema = new Schema({
-	job: Number,		//nro del job
 	usr: String,		//el usuario que creo el job
 	inicio: Number,		//el usuario indica a partir de cuando se empiezan a enviar los msgs
+	                        //la fecha ya debe venir en timestamp
 	coment: String,		//comentario del usuario
 	total_msg: Number,	//total de mensajes en el job
 	env_ok: Number,		//mensajes enviados OK
@@ -16,11 +16,11 @@ var jobSchema = new Schema({
 
 Job = mongoose.model('Job',jobSchema);
 
-exports.insert_job = function(usr,inicio,coment,total_msg,,,,callback){
+exports.insert_job = function(usr,inicio,coment,total_msg,metodo,callback){
 
-	var jobdata={usr:usr,inicio:inicio,coment:coment,
+	var jobdata={usr:usr,inicio:inicio,coment:coment,total_msg:total_msg,env_ok:0,err_dst:0,status:0,metodo:metodo}
 	
-	Job.create(data,function(err, data){
+	Job.create(jobdata,function(err, data){
 	if(err){
 		console.log(err);
             }
@@ -31,14 +31,18 @@ exports.insert_job = function(usr,inicio,coment,total_msg,,,,callback){
 };
 
 
-exports.load_job = function(data,callback){
+exports.load_job = function(callback){
     var ahora=parseInt(Date.now());
-	Job.find({inicio:{$lt:ahora},null,{sort: {inicio: -1}},function(err,data){
+    Job.find({inicio:{$lt:ahora}},function(err,data){
 		callback(data);
 	})
-}
+}       
 
-exports.update_job = function(
+
+
+
+
+//exports.update_job = function(
 
 
 /*
