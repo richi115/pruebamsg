@@ -51,7 +51,7 @@ exports.find_mdm_imei = function(imei,callback){
 }
 
 
-exports.find_mdm_lstuse = function(callback){
+exports.get_next_mdm = function(callback){
     var ahora=parseInt(Date.now())-config.DELAY_MDM; //ahora - config.DELAY_MDM = lst_use + config.DELAY_MDM
 	Mdm.findOne({lst_use:{$lt:ahora}},'tty imei',{sort: {lst_use: 1}},function(err,data){
 	if(err){
