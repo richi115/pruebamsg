@@ -7,8 +7,13 @@ var msg = require('./models/mensaje');
 
 var next_job_sync=0
 var next_job_reload=0;
-var active_jobs = new array();
+var active_jobs = new Array();
 var job_pointer=0;
+
+job.load_job(function(data){
+        console.log(data);
+});
+
 
 
 /*
