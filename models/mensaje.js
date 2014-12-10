@@ -8,7 +8,7 @@ var msgSchema = new Schema({
 	sta: Number,			//estado del mensaje (enviado(10), pendiente(1), err_dst(13))
 	h_in: Number,			//hora de insercion en BBDD
 	h_out: Number,			//hora en la que se envio le msg
-	job: Number,			//nro de job al que pertenece el msg
+	job: String,			//nro de job al que pertenece el msg
 	imei: String			//imei del modem que envio el mensaje
 });
 var Msg = mongoose.model('Msg',msgSchema);
@@ -34,14 +34,20 @@ exports.get_next_msg = function(job_num,callback){
         var query = Msg
 	            .findOne({job:job_num,sta:1,h_in:{$lt:ahora}})
 	            .select('dst msg h_in')
-	            .sort(h_in: 1)
+	            .sort({h_in: 1})
 	            .exec(function(err,data){
 	                    contestar(err,data,callback);
 	            })
 }
 
-exports.count_msg = function(job_num,status,callback){
+exports.count_msg_status = function(job_num,status,callback){
 	Msg.count({job:job_num,sta:status},function(err,data){
+                contestar(err,data,callback);
+	})
+}
+
+exports.count_msg_total = function(job_num,callback){
+	Msg.count({job:job_num},function(err,data){
                 contestar(err,data,callback);
 	})
 }

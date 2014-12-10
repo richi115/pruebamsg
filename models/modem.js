@@ -45,7 +45,7 @@ exports.get_next_mdm = function(callback){
         var query = Mdm
                     .findOne({lst_use:{$lt:ahora}})
                     .select('tty imei')
-                    .sort(lst_use: 1)
+                    .sort({lst_use: 1})
                     .exec(function(err,data){
 	                    contestar(err,data,callback);
         })

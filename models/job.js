@@ -24,8 +24,7 @@ function contestar(err,data,callback){
         }
 }
 
-exports.insert_job = function(usr,inicio,coment,total_msg,metod
-,callback){
+exports.insert_job = function(usr,inicio,coment,total_msg,metodo,callback){
 	var jobdata={usr:usr,inicio:inicio,coment:coment,total_msg:total_msg,env_ok:0,err_dst:0,status:0,metodo:metodo}
 	Job.create(jobdata,function(err,data){
                 contestar(err,data,callback);
@@ -36,7 +35,7 @@ exports.load_job = function(callback){
     var ahora=parseInt(Date.now());
     var query = Job
                 .find({inicio:{$lt:ahora}})
-                .limit(2)//config.JOB_SIM)
+                .limit(config.JOB_SIM)
                 .exec(function(err,data){
                         contestar(err,data,callback)
                 })

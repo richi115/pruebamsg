@@ -1,21 +1,22 @@
 var config = require('../config/config');
-var job = require('./models/job');
-var msg = require('./models/mensaje');
+var job = require('../models/job');
+var msg = require('../models/mensaje');
 
-
+var active_jobs = new Array();
 
 exports.jobsync = function(active_jobs){
-		for(i=0;i<active_jobs.length;i++){
-			msg.count_msg(active_jobs[i].job},, function(err, result){
+		console.log(active_jobs[2].job);
+/*		for(i=0;i<active_jobs.length;i++){
+			msg.count_msg_total(active_jobs[i].job,function(err, result){
 				if (err) {
-					console.log('Error al actualizar cantidad en job:' + active_jobs[i].job);
+					console.log('Error al actualizar cantidad total de mensajes en job:' + active_jobs[i].job);
 				}
 				else {
-					active_jobs[i].Total_msg = result;
+					active_jobs[i].total_msg = result;
 				}
 			});
 			
-			msg.count({job: active_jobs[i].job, sta: 1}, function(err, result){
+			msg.count_msg_status(active_jobs[i].job,10, function(err, result){
 				if (err) {
 					console.log('Error al actualizar enviados OK en job:' + active_jobs[i].job);
 				}
@@ -24,7 +25,7 @@ exports.jobsync = function(active_jobs){
 				}
 			});
 
-			msg.count({job: active_jobs[i].job, sta: 10}, function(err, result){
+			msg.count_msg_status(active_jobs[i].job,13, function(err, result){
 				if (err) {
 					console.log('Error al actualizar err_dst en job:' + active_jobs[i].job);
 				}
@@ -33,6 +34,15 @@ exports.jobsync = function(active_jobs){
 				}
 			});
 			
-			Cuando los trens hayan terminado (active_jobs[i].pend=active_jobs[i].total_msg - active_jobs[i].env_ok - active_jobs[i].err_dst)
-		}
+			msg.count_msg_status(active_jobs[i].job,1, function(err, result){
+				if (err) {
+					console.log('Error al actualizar pendientes en job:' + active_jobs[i].job);
+				}
+				else {
+					active_jobs[i].err_dst = result;
+				}
+			});
+			
+		} 
+		*/
 	}
