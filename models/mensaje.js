@@ -22,10 +22,17 @@ function contestar(err,data,callback){
         }
 }
 
+exports.count_msg_total = function(job_id,callback){
+	Msg.count({job:job_id},function(err,result){
+		contestar(err,result,callback);
+	})
+}
+
+
 exports.insert_msg = function(dst,msg,job,callback){
 	msgdata = {dst:dst,msg:msg,sta:1,h_in:parseInt(Date.now()),h_out:0,job:job,imei:0};
-	Msg.create(msgdata,function(err,data){
-	        contestar(err,data,callback);
+	Msg.create(msgdata,function(err,result){
+	        contestar(err,result,callback);
 	})
 }
 
@@ -35,20 +42,14 @@ exports.get_next_msg = function(job_num,callback){
 	            .findOne({job:job_num,sta:1,h_in:{$lt:ahora}})
 	            .select('dst msg h_in')
 	            .sort({h_in: 1})
-	            .exec(function(err,data){
-	                    contestar(err,data,callback);
+	            .exec(function(err,result){
+	                    contestar(err,result,callback);
 	            })
 }
 
-exports.count_msg_status = function(job_num,status,callback){
-	Msg.count({job:job_num,sta:status},function(err,data){
-                contestar(err,data,callback);
-	})
-}
-
-exports.count_msg_total = function(job_num,callback){
-	Msg.count({job:job_num},function(err,data){
-                contestar(err,data,callback);
+exports.count_msg_status = function(job_id,status,callback){
+	Msg.count({job:job_id,sta:status},function(err,result){
+                contestar(err,result,callback);
 	})
 }
 
