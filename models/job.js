@@ -41,4 +41,11 @@ exports.load_job = function(callback){
                 })
 }
 
-//exports.update_job = function(
+exports.update_job_stats = function(status){
+	Job.findOne({_id:status.jobid},function(err,data){
+		data.total_msg=status.total;
+		data.env_ok=status.enviados;
+		data.err_dst=status.error;
+		data.save();
+	});
+}

@@ -1,0 +1,1 @@
+{  "name": "PruebaMSG",  "description": "Plataforma de routing de mensajes",  "author": "Ricardo Gonzalez richi115@gmail.com>",  "dependencies": {    "async": "0.9.x",    "mongoose": "3.8.x"  },  "engine": "node >= 0.10.25"}

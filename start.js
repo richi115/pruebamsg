@@ -10,31 +10,8 @@ var next_job_reload=0;
 var active_jobs = new Array();
 var job_pointer=0;
 
-job.load_job(function(data){
-	active_jobs = data;
+job.load_job(function(active_jobs){
 	ctrl.jobsync(active_jobs);
-	setTimeout(function(){console.log(active_jobs);},2000);
-});
-
-	
-/*
-setTimeout(function(){
-				msg.count_msg_total('5487eaf71554c3c0082bd11b',function(data){
-					console.log('Result: ' + data)
-				})
-			},2000);
-
-
-//,function(err,data){console.log('resultado ' + data + ' ' + err)})},2000);
-*/
-	
-
-
-
-
-/*
-mdm.get_next_mdm(function(data){
-    console.log(data);
 });
 
 
