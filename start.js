@@ -21,7 +21,7 @@ while(true){
 
 	if(next_job_sync>config.JOB_SYNC) {
 		ctrl.jobsync(active_jobs);	//valida que los mensajes de la coleccion de jobs activos
-		next_job_sync=0;		//coincidan con los mensajes en la coleccion msg. Guarda en BBDD los jobs activos.
+		next_job_sync=0;		//coincidan con los mensajes en la coleccion msg.
 	}								
 	next_job_sync++;
 	
@@ -39,6 +39,7 @@ while(true){
 	if(!active_jobs[job_pointer]){			//si no hay mas trabajos en la cola pongo el puntero en 0
 		job_pointer=0;
 	} else {
+	
 		mdm.get_next_mdm(msg.get_next_msg(active_jobs[job_pointer],ctrl.enviar_msg()));
 		job_pointer++;
 	}
