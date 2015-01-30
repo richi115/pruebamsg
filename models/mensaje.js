@@ -30,14 +30,14 @@ exports.count_msg_total = function(job_id,callback){
 
 
 exports.insert_msg = function(dst,msg,job,callback){
-	msgdata = {dst:dst,msg:msg,sta:1,h_in:parseInt(Date.now()),h_out:0,job:job,imei:0};
+	msgdata = {dst:dst,msg:msg,sta:1,h_in:parseInt(Date.now()/1000),h_out:0,job:job,imei:0};
 	Msg.create(msgdata,function(err,result){
 	        contestar(err,result,callback);
 	})
 }
 
 exports.get_next_msg = function(job_num,callback){
-        var ahora=parseInt(Date.now());
+        var ahora=parseInt(Date.now()/1000);
         var query = Msg
 	            .findOne({job:job_num,sta:1,h_in:{$lt:ahora}})
 	            .select('dst msg h_in')

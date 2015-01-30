@@ -1,23 +1,57 @@
 var config = require('./config/config');
 var db = require('./db/db');
-var mdm = require('./models/modem');
+var mdm = require('./controller/gestionmdms');
 var job = require('./models/job');
-var msg = require('./models/mensaje');
-var ctrl = require('./controller/auxfunctions');
+var async = require('async');
+//var msg = require('./models/mensaje');
 
-var next_job_sync=0
+
 var next_job_reload=0;
 var active_jobs = [];
-var job_pointer=0;
+var modems = [];
+
+mdm.load_mdm(modems,function(){
+		async.series([
+			function(callback){
+				if(active_jobs.length<config.JOB_SIM){
+					actuallen=active_jobs.length;
+					job.load_job(function(active_jobs){
+						result = +config.JOB_SIM - +actuallen
+						callback(null,'JOBS: Cargados '+ result + ' job(s)');
+					})
+				}
+			}],
+/*			function(callback){
+				for(i=0;active_jobs.length<config.JOB_SIM;i++){
+						async.waterfall([
+							function(callbackl2){
+								mdm.get_nxt_mdm(modems,function(modem){
+									
+								}
+							}
+						],
+						})
+						callback(null,0);
+			}],
+	*/		function(err,results){
+				console.log(results[0])
+			}
+		)
+	}
+)
+
+
+
 
 /*
-job.load_job(function(active_jobs){
 
-	ctrl.jobsync(active_jobs,function(data){
-		console.log('job synced: '+ data);
-	});
-});
-*/
+
+
+msg.snd_nxt_msg(modem,active_job[i],function(){
+								mdm.update_status()
+
+
+
 
 while(true){
 	async.series([

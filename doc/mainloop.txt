@@ -1,0 +1,29 @@
+* Definicion de variables
+* Cargar lista completa de modems operativos en array
+
+main loop
+
+
+Paso 1	
+	si array trabajos<config.JOBS_SIM
+		cargar en array trabajos pendientes mas antiguos
+
+Paso 2
+	bucle (uno por trabajo) (o con un async waterfall)
+		buscar modem
+			enviar mensaje
+				actualizar job (solo el objeto, no escribir en BBDD)
+					actualizar estado del modem
+				
+Paso 3
+	Mirar jobs, si alguno esta en estado finalizado escribir en BBDD y hacer pop del array
+
+Paso 4
+	si ya se enviarmon mas de XX msg bajar array de jobs a BBDD
+				
+				
+			
+	
+	
+	
+	

@@ -1,0 +1,102 @@
+version1
+--------
+
+bucle {
+1) buscar jobs mas viejo de bbdd
+2) buscar siguiente mdm libre en bbdd
+3) buscar un msg del job en bbdd
+4) enviar msg
+5) actualizar msg en bbdd
+6) actualizar mdm en bbdd
+7) actualizar job en bbdd
+}
+
+version2
+--------
+
+
+* syncronizar jobs y msg en BBDD antes de arrancar.
+
+bucle infinito{
+	async.series{
+		1[if(MDM_RESCAN superado){
+			buscar mdsm y guardarlos en array. Calcular msg_por_loop = mdms.lenght * MSG_POR_MDM]
+			
+		2[buscar todos los jobs cuya fecha de inicio haya pasado y guardarlo jobs_activos[],
+			calcular una ponderacion de mensajes a enviar por job y agregar a cada objeto job del array 
+				la cantidad de msg que tienen que enviar por job
+			sacar del array de jobs los que tengan un 0 en la poderacion]
+			
+		3[bucle(de cant. jobs en array){
+			* async.serie{
+					* buscar en BBDD tantos msg como indique en la ponderacion para ese job y guardar en array
+					* bucle waterfall(largo del array de mensajes){
+						* sacar info del mensaje
+						* buscar siguiente mdm libre
+						* enviar mensaje
+						* actualizar mensaje
+						* actualizar job
+						* actualizar mdm
+					}
+			* bajar info de msg a BBDD
+			* liberar array de msgs
+			}]
+			
+		4[bajar info de jobs a BBDD]
+	}
+}
+	
+calculo de ponderacion:
+	1) sumar la cantidad de segundos de diferencia entre la hora de inicio del job y la hora actual
+	2) obtener el % de desfase de segundo por 
+	
+	
+dif1=120	59%
+dif2=80		39%
+dif3=2		0%
+
+total = 202
+
+mensajes enviados por cada iteracion?
+
+	
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+config
+------
+RESCANMODEMS=100
+
+vars
+----
+rescan_mdm=0
+
+
+syncronizar jobs para asegurarse de que el estado de los mensajes y los contadores de los jobs sean coherentes
+
+
+async.serie([
+	function(callback){
+		if(rescan_mdm>RESCANMODEMS){
+			mdm.load_mdm(modems,function(){
+				rescan_mdm=0;
+				callback
+			}
+		}
+		else {
+			rescan_mdm++;
+			callback
+		}
+	},
+	function(callback){
+	
+	
+	}
+		
+
+
+
+
+])

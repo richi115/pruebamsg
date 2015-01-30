@@ -4,7 +4,7 @@ var msg = require('../models/mensaje');
 var async = require('async');
 
 
-exports.jobsync = function(active_jobs){
+exports.jobsync = function(active_jobs,cbfinal){
 	for(i=0;i<active_jobs.length;i++){
 		async.parallel({
 			total: function(callback){
@@ -30,26 +30,8 @@ exports.jobsync = function(active_jobs){
 				if(err){
 					console.log('Error al syncronizar job: ' + results.jobid)
 				} else {
-					job.update_job_stats(results);
+					job.update_job_stats(results,cbfinal);
 				}
 			})
 	}
 }
-
-/*
-exports.jobsync = function(active_jobs){
-	for(job=0;job<active_jobs.length;job++){
-		(function(i){
-			msg.count_msg_total(active_jobs[i]._id,function(result){db.
-				active_jobs[i].total_msg = result;
-			});
-			msg.count_msg_status(active_jobs[i]._id,10, function(result){
-				active_jobs[i].env_ok = result;
-			});
-
-			msg.count_msg_status(active_jobs[i]._id,13, function(result){
-				active_jobs[i].err_dst = result;
-			});
-		})(job)
-	}
-}*/
