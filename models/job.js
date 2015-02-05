@@ -36,7 +36,7 @@ exports.load_job = function(callback){
     var query = Job
                 .find({inicio:{$lt:ahora},status:0})
 				.sort({inicio: 1})
-                .limit(config.JOB_SIM)
+                .limit(config.JOB_LIMIT)
                 .exec(function(err,data){
                         contestar(err,data,callback)
                 })
