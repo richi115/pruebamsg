@@ -35,3 +35,7 @@ exports.jobsync = function(active_jobs,cbfinal){
 			})
 	}
 }
+
+exports.job_ponderar=function(jobsqueu,totalmsg){
+	
+}

@@ -12,8 +12,8 @@ var act_msgs=[]
 var mdm_rescan=10000
 var msg_por_loop=0
 
-async.forever(
-	function(next){
+//async.forever(
+//	function(next){
 		async.series([
 			function(callback){
 				if (mdm_rescan>config.MDM_RESCAN){
@@ -30,16 +30,16 @@ async.forever(
 			},
 			function(callback){
 				job.load_job(function(datosjobs){
-					act_jobs=datosjobs
+			//		act_jobs=ctrl.ponderar(datosjobs)
 					callback(null,'JOBS: Cargados '+ act_jobs.length + ' job(s)');
 				})
 			}],
 			function(err, resultados){
 				console.log(resultados[0])
 				console.log(resultados[1])
-				next()
+			//	next()
 			}
 		)
-	}
-)
+//	}
+//)
 		
