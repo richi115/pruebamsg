@@ -36,6 +36,14 @@ exports.jobsync = function(active_jobs,cbfinal){
 	}
 }
 
-exports.job_ponderar=function(jobsqueu,totalmsg){
+exports.job_ponderar=function(jobsque,totalmsg){
+	var acum=0
+	var acum2
+	var max
+	var ahora=parseInt(Date.now()/1000);
 	
+	for(var i=0;i<jobsque.length;i++){
+		acum=acum+ahora-jobsque.inicio
+		
+	}
 }

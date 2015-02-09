@@ -30,6 +30,7 @@ var msg_por_loop=0
 			},
 			function(callback){
 				job.load_job(function(datosjobs){
+					console.log(datosjobs)
 			//		act_jobs=ctrl.ponderar(datosjobs)
 					callback(null,'JOBS: Cargados '+ act_jobs.length + ' job(s)');
 				})
