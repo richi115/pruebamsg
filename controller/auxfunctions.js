@@ -38,12 +38,24 @@ exports.jobsync = function(active_jobs,cbfinal){
 
 exports.job_ponderar=function(jobsque,totalmsg){
 	var acum=0
-	var acum2
-	var max
+	var acum2=0
+	var largo=jobsque.length
 	var ahora=parseInt(Date.now()/1000);
+	var sobrante=0
 	
-	for(var i=0;i<jobsque.length;i++){
-		acum=acum+ahora-jobsque.inicio
-		
+	for(var i=0;i<largo;i++){
+		acum=acum+ahora-jobsque[i].inicio
 	}
+	for(var i=0;i<largo;i++){
+		jobsque[i].msg_a_enviar=parseInt((ahora-jobsque[i].inicio)*totalmsg/acum)
+		acum2=acum2+jobsque[i].msg_a_enviar
+		if(!jobsque[i].msg_a_enviar){
+			jobsque.splice(i,1)
+			i--
+			largo--
+		}
+	}
+	sobrante=totalmsg-acum2
+	jobsque[0].msg_a_enviar=jobsque[0].msg_a_enviar+sobrante
+	return jobsque
 }

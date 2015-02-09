@@ -1,15 +1,15 @@
-var ctrl = require('./models/auxfunctions');
+var ctrl = require('../controller/auxfunctions');
 
 var data=
 [ { usr: 'richi',
-    inicio: 1421742694,
+    inicio: 421742694,
     coment: 'Prueba 0',
     total_msg: 20,
     env_ok: 11,
     err_dst: 9,
     status: 0,
     metodo: 1,
-    _id: 54be125889bc64c0153ec5b4,
+    _id: '54be125889bc64c0153ec5b4',
     __v: 0 },
   { usr: 'perro',
     inicio: 1421742879,
@@ -19,7 +19,7 @@ var data=
     err_dst: 8,
     status: 0,
     metodo: 1,
-    _id: 54be125889bc64c0153ec5b7,
+    _id: '54be125889bc64c0153ec5b7',
     __v: 0 },
   { usr: 'enano',
     inicio: 1421743006,
@@ -29,22 +29,23 @@ var data=
     err_dst: 7,
     status: 0,
     metodo: 1,
-    _id: 54be125889bc64c0153ec5b6,
+    _id: '54be125889bc64c0153ec5b6',
     __v: 0 },
   { usr: 'churri123',
-    inicio: 1421743121,
+    inicio: 421103121,
     coment: 'Prueba 1',
     total_msg: 20,
     env_ok: 6,
     err_dst: 12,
     status: 0,
     metodo: 1,
-    _id: 54be125889bc64c0153ec5b5,
+    _id: '54be125889bc64c0153ec5b5',
     __v: 0 } ]
 	
 var msg=120
 var res
 
-res = ctrl.job_ponderar(datos,msg)
+res = ctrl.job_ponderar(data,msg)
 
 console.log(res)
+
