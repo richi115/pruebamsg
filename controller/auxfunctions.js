@@ -38,24 +38,42 @@ exports.jobsync = function(active_jobs,cbfinal){
 
 exports.job_ponderar=function(jobsque,totalmsg){
 	var acum=0
-	var acum2=0
 	var largo=jobsque.length
 	var ahora=parseInt(Date.now()/1000);
 	var sobrante=0
+	var msg_asignados=0
+	var msg_total=0
+	var faltante=0
 	
 	for(var i=0;i<largo;i++){
 		acum=acum+ahora-jobsque[i].inicio
 	}
 	for(var i=0;i<largo;i++){
-		jobsque[i].msg_a_enviar=parseInt((ahora-jobsque[i].inicio)*totalmsg/acum)
-		acum2=acum2+jobsque[i].msg_a_enviar
+		msg_total=jobsque[i].total_msg				//total de mensajes del job
+		msg_asignados=parseInt((ahora-jobsque[i].inicio)*totalmsg/acum)    //mensajes asignados a ese job
+		
+		if(msg_asignados>=msg_total){    //si hay mas asignados que el total
+			jobsque[i].msg_a_enviar=msg_total	
+			sobrante=sobrante+msg_asignados-msg_total
+			jobsque[i].pasepor='asignados>msg_total'
+		} else {
+			faltante=msg_total-msg_asignados
+			if(faltante<=sobrante){
+				jobsque[i].msg_a_enviar=msg_total
+				sobrante=sobrante-faltante 
+				jobsque[i].pasepor='asignados<msg_total y faltante<sobrante '+sobrante+':'+msg_asignados
+				} else {
+				jobsque[i].msg_a_enviar=msg_asignados+sobrante
+				sobrante=0
+				jobsque[i].pasepor='asignados<msg_total y faltante<sobrante '+sobrante+':'+msg_asignados
+			}
+			
+		}
 		if(!jobsque[i].msg_a_enviar){
 			jobsque.splice(i,1)
 			i--
 			largo--
 		}
 	}
-	sobrante=totalmsg-acum2
-	jobsque[0].msg_a_enviar=jobsque[0].msg_a_enviar+sobrante
 	return jobsque
 }
