@@ -51,7 +51,6 @@ exports.job_ponderar=function(jobsque,totalmsg){
 	for(var i=0;i<largo;i++){
 		msg_total=jobsque[i].total_msg				//total de mensajes del job
 		msg_asignados=parseInt((ahora-jobsque[i].inicio)*totalmsg/acum)    //mensajes asignados a ese job
-		
 		if(msg_asignados>=msg_total){    //si hay mas asignados que el total
 			jobsque[i].msg_a_enviar=msg_total	
 			sobrante=sobrante+msg_asignados-msg_total

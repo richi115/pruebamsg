@@ -44,7 +44,7 @@ var data=
 	
 var msg=120
 var res
-
+debugger
 res = ctrl.job_ponderar(data,msg)
 
 console.log(res)

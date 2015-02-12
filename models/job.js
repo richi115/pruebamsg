@@ -37,6 +37,7 @@ exports.load_job = function(callback){
                 .find({inicio:{$lt:ahora},status:0})
 				.sort({inicio: 1})
                 .limit(config.JOB_LIMIT)
+				.lean()
                 .exec(function(err,data){
                         contestar(err,data,callback)
                 })

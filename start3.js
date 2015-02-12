@@ -3,6 +3,7 @@ var db = require('./db/db');
 var mdm = require('./controller/gestionmdms');
 var job = require('./models/job');
 var async = require('async');
+var ctrl = require('./controller/auxfunctions');
 //var msg = require('./models/mensaje');
 
 
@@ -19,25 +20,25 @@ var msg_por_loop=0
 				if (mdm_rescan>config.MDM_RESCAN){
 					mdm.load_mdm(function(datosmodems){
 						act_mdms=datosmodems
+						msg_por_loop=act_mdms.length * config.MSG_POR_MDM;
 						mdm_rescan=0
 						callback(null,'Cargados ' + act_mdms.length + ' modem(s)')
 					})
 				} else {
 					mdm_rescan++;
-					msg_por_loop=act_mdms.length * config.MSG_POR_MDM;
 					callback(null,'No fue necesario reload, msg por loop: ' + msg_por_loop);
 				}
 			},
 			function(callback){
 				job.load_job(function(datosjobs){
-					console.log(datosjobs)
-			//		act_jobs=ctrl.ponderar(datosjobs)
+					act_jobs=ctrl.job_ponderar(datosjobs,msg_por_loop)
 					callback(null,'JOBS: Cargados '+ act_jobs.length + ' job(s)');
 				})
 			}],
 			function(err, resultados){
 				console.log(resultados[0])
 				console.log(resultados[1])
+				console.log(act_jobs)
 			//	next()
 			}
 		)
