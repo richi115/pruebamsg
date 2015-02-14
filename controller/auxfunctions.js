@@ -54,17 +54,17 @@ exports.job_ponderar=function(jobsque,totalmsg){
 		if(msg_asignados>=msg_total){    //si hay mas asignados que el total
 			jobsque[i].msg_a_enviar=msg_total	
 			sobrante=sobrante+msg_asignados-msg_total
-			jobsque[i].pasepor='asignados>msg_total'
+			jobsque[i].pasepor='asignados: '+msg_asignados+';sobrante: '+sobrante
 		} else {
 			faltante=msg_total-msg_asignados
 			if(faltante<=sobrante){
 				jobsque[i].msg_a_enviar=msg_total
-				sobrante=sobrante-faltante 
-				jobsque[i].pasepor='asignados<msg_total y faltante<sobrante '+sobrante+':'+msg_asignados
+				sobrante=sobrante-faltante
+				jobsque[i].pasepor='asignados: '+msg_asignados+';faltante: '+faltante+';sobrante: '+sobrante
 				} else {
 				jobsque[i].msg_a_enviar=msg_asignados+sobrante
 				sobrante=0
-				jobsque[i].pasepor='asignados<msg_total y faltante<sobrante '+sobrante+':'+msg_asignados
+				jobsque[i].pasepor='asignados: '+msg_asignados+';faltante: '+faltante
 			}
 			
 		}

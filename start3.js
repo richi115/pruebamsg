@@ -34,6 +34,9 @@ var msg_por_loop=0
 					act_jobs=ctrl.job_ponderar(datosjobs,msg_por_loop)
 					callback(null,'JOBS: Cargados '+ act_jobs.length + ' job(s)');
 				})
+			},
+			function(callback){
+				
 			}],
 			function(err, resultados){
 				console.log(resultados[0])
