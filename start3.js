@@ -4,7 +4,7 @@ var mdm = require('./controller/gestionmdms');
 var job = require('./models/job');
 var async = require('async');
 var ctrl = require('./controller/auxfunctions');
-//var msg = require('./models/mensaje');
+var msg = require('./models/mensaje');
 
 
 var act_mdms=[]
@@ -36,12 +36,15 @@ var msg_por_loop=0
 				})
 			},
 			function(callback){
-				
+				msg.load_msg(act_jobs[0]._id,act_jobs[0].msg_a_enviar,function(mensajes){
+					act_msgs=mensajes
+					callback(null,'MSGS: Cargados '+ act_msgs.length + ' mensaje(s)')
+				})
 			}],
 			function(err, resultados){
 				console.log(resultados[0])
 				console.log(resultados[1])
-				console.log(act_jobs)
+				console.log(act_msgs)
 			//	next()
 			}
 		)

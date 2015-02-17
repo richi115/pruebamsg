@@ -27,22 +27,22 @@ bucle infinito{
 				la cantidad de msg que tienen que enviar por job
 			sacar del array de jobs los que tengan un 0 en la poderacion]
 			
-		3[bucle(de cant. jobs en array){
+		3[async.each(jobs en array){
 			* async.serie{
-					* buscar en BBDD tantos msg como indique en la ponderacion para ese job y guardar en array
-					* bucle waterfall(largo del array de mensajes){
-						* sacar info del mensaje
-						* buscar siguiente mdm libre
-						* enviar mensaje
-						* actualizar mensaje
-						* actualizar job
-						* actualizar mdm
-					}
-			* bajar info de msg a BBDD
-			* liberar array de msgs
+				* buscar en BBDD tantos msg como indique en la ponderacion para ese job y guardar en array
+				* async.waterfall(array de mensajes para este job){
+					* sacar info del mensaje
+					* buscar siguiente mdm libre
+					* enviar mensaje
+					* actualizar mensaje
+					* actualizar job
+					* actualizar mdm
+				}
+				* bajar info de msg a BBDD(async.each)
+				* liberar array de msgs
 			}]
 			
-		4[bajar info de jobs a BBDD]
+		4[bajar info de jobs a BBDD](async.each)
 	}
 }
 	

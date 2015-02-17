@@ -36,15 +36,15 @@ exports.insert_msg = function(dst,msg,job,callback){
 	})
 }
 
-exports.get_next_msg = function(job_num,callback){
-        var ahora=parseInt(Date.now()/1000);
+exports.load_msg = function(job_num,msg_asign,callback){
         var query = Msg
-	            .findOne({job:job_num,sta:1,h_in:{$lt:ahora}})
-	            .select('dst msg h_in')
+	            .find({'job':job_num,'sta':1})
+	            .lean()
 	            .sort({h_in: 1})
+				.limit(msg_asign)
 	            .exec(function(err,result){
-	                    contestar(err,result,callback);
-	            })
+	                contestar(err,result,callback);
+				})
 }
 
 exports.count_msg_status = function(job_id,status,callback){

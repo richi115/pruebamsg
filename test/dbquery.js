@@ -1,8 +1,10 @@
 var db = require('../db/db');
-var job = require('../models/job');
+var msg=require('../models/mensaje')
 
-while(true){
-	job.load_job(function(){	
-		console.log('jobs cargados')
-	})	
-}
+var job='54be125889bc64c0153ec5b5'
+var limite=15
+debugger
+console.log(job)
+msg.load_msg(job,limite,function(resultado){
+	console.log(resultado)
+})
