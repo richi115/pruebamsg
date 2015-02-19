@@ -36,16 +36,26 @@ var msg_por_loop=0
 				})
 			},
 			function(callback){
-				msg.load_msg(act_jobs[0]._id,act_jobs[0].msg_a_enviar,function(mensajes){
-					act_msgs=mensajes
-					callback(null,'MSGS: Cargados '+ act_msgs.length + ' mensaje(s)')
-				})
+				async.series([
+					function(callback_msg){					
+						msg.load_msg(act_jobs[2]._id,act_jobs[2].msg_a_enviar,function(mensajes){
+							act_msgs=mensajes
+							callback_msg(null,'MSGS: Cargados '+ act_msgs.length + ' mensaje(s)')
+						})
+					},
+					function(callback_msg){
+						callback_msg(null)
+					}],
+					function(err,result_msg){
+						callback(null,result_msg[0])
+					}
+				)
 			}],
 			function(err, resultados){
 				console.log(resultados[0])
 				console.log(resultados[1])
-				console.log(act_msgs)
-			//	next()
+				console.log(resultados[2])
+				//	next()
 			}
 		)
 //	}
