@@ -1,0 +1,46 @@
+
+
+
+
+async.serie(					//serie externa, se ejecuta una vez
+	function(1){
+		Sincronizar mensajes con jobs activos en BBDD
+	},
+	function(2){				//mainloop, se ejecuta infinitas veces
+		async.forever(function(next){	
+			var act_mdms=[]
+			var mdm_rescan=10000
+			var msg_por_loop=0
+			
+			async.waterfall(
+				function(1){
+					cargar array de modems si toca
+				},
+				function(2){
+					cargar jobs
+					callback(null,jobs)
+				},
+				function(3,act_jobs){
+					async.each(act_jobs,function(){					//para cada job hacer
+						var act_msgs
+						async.waterfall(
+							function(1){
+								cargar mensajes de ese job
+								callback(mensajes)
+							}
+							function(2, act_msg){
+								async.each(function(1){
+									
+								})
+							}
+						)
+					})
+				}
+					
+			
+			)
+			
+		
+		})
+	}
+)

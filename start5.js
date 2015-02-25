@@ -44,10 +44,11 @@ var msg_por_loop=0
 						function(cb_lotemsg){							//Sacar todos los mensajes de este job
 							msg.load_msg(jobencurso._id,jobencurso.msg_a_enviar,function(lotemsgs){
 								cb_lotemsg(null,lotemsgs)
+								console.log('Procesando JOB: '+jobencurso._id)
 							})
 						},
 						function(lotemsgs,cb_lotemsg){				//Secuencia de envio
-							async.eachSeries(lotemsgs,function(msgencurso,cb_msgloop){  //Por cada msg unico hacer este WF
+							async.each(lotemsgs,function(msgencurso,cb_msgloop){  //Por cada msg unico hacer este WF
 								async.waterfall([                    
 									function(cb_sendloop){  				//buscar modem
 										var nro_modem=parseInt(Math.random()*100)
@@ -67,7 +68,6 @@ var msg_por_loop=0
 										cb_msgloop()
 									}
 								)
-								
 							})
 							cb_lotemsg(null,'MSGS: Cargados '+ lotemsgs.length + ' mensaje(s)')
 						}],
@@ -81,8 +81,8 @@ var msg_por_loop=0
 			function(err, resultados){
 				console.log(resultados[0])
 				console.log(resultados[1])
-				//	next()
+				//next()
 			}
 		)
-//	}
+	//}
 //)
