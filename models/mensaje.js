@@ -53,4 +53,14 @@ exports.count_msg_status = function(job_id,status,callback){
 	})
 }
 
-//exports.update_msg(h_out,imei,sta){};
+
+exports.update_msg = function(status,callback){
+	Job.findOne({_id:status.jobid},function(err,data){
+		data.total_msg=status.total;
+		data.env_ok=status.enviados;
+		data.err_dst=status.error;
+		data.save(function(err,data){
+                        contestar(err,data,callback)
+        });
+	});
+}

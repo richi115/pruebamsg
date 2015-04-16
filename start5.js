@@ -5,6 +5,7 @@ var job = require('./models/job');
 var async = require('async');
 var ctrl = require('./controller/auxfunctions');
 var msg = require('./models/mensaje');
+var events = require('events')
 
 
 var act_mdms=[]
@@ -14,12 +15,10 @@ var msg_por_loop=0
 
 
 
-
-
 //async.forever(
 //	function(next){
 		async.series([										//main loop
-			function(cb_mainloop){								//Paso 1 cargar modems
+			function(cb_mainloop){								//Paso 1 cargar modems leyendo FS
 				if (mdm_rescan>config.MDM_RESCAN){
 					mdm.load_mdm(function(datosmodems){
 						act_mdms=datosmodems
@@ -49,22 +48,41 @@ var msg_por_loop=0
 						},
 						function(lotemsgs,cb_lotemsg){				//Secuencia de envio
 							async.each(lotemsgs,function(msgencurso,cb_msgloop){  //Por cada msg unico hacer este WF
+								var ee = new events.EventEmitter();
 								async.waterfall([                    
 									function(cb_sendloop){  				//buscar modem
-										var nro_modem=parseInt(Math.random()*100)
-										console.log('MODEM ENCONTRADO')
-										cb_sendloop(null,nro_modem)
+										var res
+										if (mdm.hay_mdm_libre(act_mdms)){
+											console.log('agarro un mdm libre')
+											res=mdm.get_nxt_mdm(act_mdms)
+											act_mdms[res].sta=1				//marco el modem en estado En Uso
+											cb_sendloop(null,res)
+										} else {
+											console.log('esperando que se libere un modem')
+											ee.on('ModemLiberado',function(){
+												console.log('Liberando modem')
+												res=mdm.get_nxt_mdm(act_mdms)
+												act_mdms[res].sta=1				//marco el modem en estado En Uso
+												cb_sendloop(null,res)
+											})
+										}
 									},
 									function(modem_asignado,cb_sendloop){  //enviar mensaje y actualizar estado msg
 										var estado_modem=1
-										console.log('MENSAJE A: '+msgencurso.dst+' USANDO MDM: '+modem_asignado)
-										cb_sendloop(null,modem_asignado,estado_modem)
+										setTimeout(function(){
+											console.log('MENSAJE A: '+msgencurso.dst+' USANDO MDM: '+modem_asignado)
+											cb_sendloop(null,modem_asignado,estado_modem)
+										},5000)
 									},
 									function(modem_asignado,estado_modem,cb_sendloop){ //actualizar modem
 										console.log('Modem '+modem_asignado+' actualizado')
+										act_mdms[modem_asignado].sta=0
+										ee.emit('ModemLiberado')
 										cb_sendloop(null)
 									}],
 									function(err,result_envio){
+										var act=process._getActiveRequests()
+										//console.log(act)
 										cb_msgloop()
 									}
 								)
