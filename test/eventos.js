@@ -1,9 +1,4 @@
-var events=require('events')
-var async=require('async')
-
-var emisor = new events.EventEmitter();
-
-
+var envio=require('./eventos-module')
 
 var mdms = [{mdm:1,sta:0},
 		    {mdm:2,sta:0},
@@ -14,9 +9,11 @@ var mdms = [{mdm:1,sta:0},
 		    {mdm:7,sta:0},
 		    {mdm:8,sta:0},
 		    {mdm:9,sta:0},
-		    {mdm:10,sta:0}]
+		    {mdm:10,sta:0},
+		    {mdm:11,sta:0},
+		    {mdm:12,sta:0},
+		    {mdm:13,sta:0}]
 
-			
 var msgs = [{id:1,sta:0},
 			{id:2,sta:0},
 			{id:3,sta:0},
@@ -58,44 +55,7 @@ var msgs = [{id:1,sta:0},
 			{id:39,sta:0},
 			{id:40,sta:0}]
 
-emisor.on('modemlibre',function(){
-	var mdm,msg
-	mdm=get_next(mdms)
-	msg=get_next(msgs)
-	enviar_msg(mdm,msg)
-})		
+envio.procesar_cola_msg(mdms,msgs,function(){
+	console.log('Todo listo')
+})
 
-
-function get_next(arr){
-	for(var i=0;i<arr.length;i++){
-		if(arr[i].sta===0) {
-			return i
-		}
-	}
-	console.log(mdms)
-	console.log(msgs) 
-	process.exit()
-}
-
-
-function enviar_msg(mdm,msg){
-	var rand=parseInt(Math.random()*3000)+1000
-	console.log('Enviando msg '+msgs[msg].id+' por mdm '+mdms[mdm].mdm)
-	mdms[mdm].sta=1
-	msgs[msg].sta=1
-	setTimeout(function(){
-		mdms[mdm].sta=0
-		emisor.emit('modemlibre')
-		},rand)
-}
-
-emisor.emit('modemlibre')
-emisor.emit('modemlibre')
-emisor.emit('modemlibre')
-emisor.emit('modemlibre')
-emisor.emit('modemlibre')
-emisor.emit('modemlibre')
-emisor.emit('modemlibre')
-emisor.emit('modemlibre')
-emisor.emit('modemlibre')
-emisor.emit('modemlibre')
