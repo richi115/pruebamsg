@@ -3,11 +3,11 @@ var config = require('../config/config');
 var Schema = mongoose.Schema;
 var err,data,callback;
 var jobSchema = new Schema({
+	nro: Number,
 	usr: String,		//el usuario que creo el job
-	inicio: Number,		//el usuario indica a partir de cuando se empiezan a enviar los msgs
-	                        //la fecha ya debe venir en timestamp
+	inicio: Number,		//fecha inicio job en timestamp
 	coment: String,		//comentario del usuario
-	total_msg: Number,	//total de mensajes en el job
+	pendiente: Number,	//total de mensajes pendientes de enviar en el job
 	env_ok: Number,		//mensajes enviados OK
 	err_dst: Number,	//mensajes con error de destino
 	status: Number,		//estado del proceso (pendiente(0), finalizado(2))
@@ -24,8 +24,8 @@ function contestar(err,data,callback){
         }
 }
 
-exports.insert_job = function(usr,inicio,coment,total_msg,metodo,callback){
-	var jobdata={usr:usr,inicio:inicio,coment:coment,total_msg:total_msg,env_ok:0,err_dst:0,status:0,metodo:metodo}
+exports.insert_job = function(nro,usr,inicio,coment,total_msg,metodo,callback){
+	var jobdata={nro:nro,usr:usr,inicio:inicio,coment:coment,pendiente:total_msg,env_ok:0,err_dst:0,status:0,metodo:metodo}
 	Job.create(jobdata,function(err,data){
                 contestar(err,data,callback);
         })

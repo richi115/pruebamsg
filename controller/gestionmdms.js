@@ -6,13 +6,15 @@ var CANT_MDM = 5;
 
 exports.load_mdm = function(callback){
 	var mdms=[];
-	for(var i=0;i<CANT_MDM;i++){
-		var imei=parseInt(Math.pow(Math.random()*1000,3));
-		//var sta=parseInt(Math.random()*2);	//0 es libre, 1 es en uso
-		var ultimo=parseInt(Date.now()/1000)-parseInt(Math.random()*10);
-		mdms[i] = {tty:i,sta:0,operativo:true,imei:imei,mdl:'e303',lst_use:ultimo,grp:1};
-	}
-	callback(mdms);
+	setTimeout(function(){
+		for(var i=0;i<CANT_MDM;i++){
+			var imei=parseInt(Math.pow(Math.random()*1000,3));
+			//var sta=parseInt(Math.random()*2);	//0 es libre, 1 es en uso
+			var ultimo=parseInt(Date.now()/1000)-parseInt(Math.random()*10);
+			mdms[i] = {tty:i,sta:0,operativo:true,imei:imei,mdl:'e303',lst_use:ultimo,grp:1};
+		}
+		callback(mdms)
+	},2000)
 }
 
 			
