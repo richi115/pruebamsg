@@ -2,12 +2,12 @@ var db = require('../db/db');
 var job = require('../models/job');
 var msg = require('../models/mensaje');
 
-var CANT_MSG=40,CANT_JOB=4;
+
 
 
 //generar mensajes
-function mensajes(job_id){
-	for(i=0;i<CANT_MSG;i++){
+function mensajes(job_id,cant_msg){
+	for(var i=0;i<cant_msg;i++){
 		var dst='+34' + parseInt(Math.random()*100000000);
 		var txt=["hola","publicidad","prueba","test","caniche","notificacion","resultado","cuota"];
 		var rand1=parseInt(Math.random()*8)	
@@ -19,23 +19,20 @@ function mensajes(job_id){
 
 
 //generar job
-function jobs(){
-	var a,fecha;
+function jobs(cant_jobs){
+	var fecha;
+	var cant_msgs
 	var usr=["richi","rigonzal","enano","mariano","testuser1","testuser2","testuser3"];
-	var cant=[300,400,250,500,400,400,500]
-	for(i=0;i<CANT_JOB;i++){
-		rand1=parseInt(Math.random()*7)
-		rand2=parseInt(Math.random()*7)
+	for(var i=0;i<cant_jobs;i++){
+		indice_user=parseInt(Math.random()*usr.length)
+		cant_msgs=parseInt(Math.random()*100)+50
 		fecha=parseInt(Date.now()/1000-Math.random()*2000);
-		job.insert_job(i+1,usr[rand1],fecha,"Prueba " + i,cant[rand2],1,function(data){
-			console.log('JOB: ' + data._id + ' Insertado OK');
+		job.insert_job(i+1,usr[indice_user],fecha,"Prueba " + i,cant_msgs,1,function(data){
+			console.log('JOB: ' + data.nro + ' Insertado OK');
+			mensajes(data.nro,data.pendiente)
 		});
 	}	
 }	
 
 
-mensajes(1);
-mensajes(2);
-mensajes(3);
-mensajes(4);
-
+jobs(8)

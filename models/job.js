@@ -43,11 +43,11 @@ exports.load_job = function(callback){
                 })
 }
 
-exports.update_job_stats = function(status,callback){
-	Job.findOne({_id:status.jobid},function(err,data){
-		data.total_msg=status.total;
-		data.env_ok=status.enviados;
-		data.err_dst=status.error;
+exports.update_job = function(jobs,callback){
+	Job.findOne({_id:jobs._id},function(err,data){
+		data.status=jobs.status;
+		data.pendiente=data.pendiente-jobs.msg_a_enviar;
+		data.env_ok=data.env_ok+jobs.msg_a_enviar;
 		data.save(function(err,data){
                         contestar(err,data,callback)
         });

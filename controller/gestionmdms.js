@@ -1,6 +1,7 @@
 var config = require('../config/config');
 
-var CANT_MDM = 5;
+
+var CANT_MDM = 20;
 
 
 
@@ -17,25 +18,10 @@ exports.load_mdm = function(callback){
 	},2000)
 }
 
-			
-exports.get_nxt_mdm = function(array_mdms){
-	var ahora=parseInt(Date.now()/1000)
-	var masantiguo=ahora*2
-	var indice=0
-	for(var i=0;i<array_mdms.length;i++){
-		if(array_mdms[i].lst_use<masantiguo && !array_mdms[i].sta){
-			masantiguo=array_mdms[i].lst_use
-			indice=i
-		}
+exports.reset=function(modems){
+	var i=0,cant_mdms=modems.length
+	for(;i<cant_mdms;i++){
+		modems[i].sta=0
 	}
-	return indice
 }
 
-exports.hay_mdm_libre = function(array_mdms){		//devuelve 1 si hay por lo menos un modem libre
-	for(var i=0;i<array_mdms.length;i++){
-		if(!array_mdms[i].sta){
-			return 1
-		}
-	}
-	return 0
-}
