@@ -25,7 +25,7 @@ function jobs(cant_jobs){
 	var usr=["richi","rigonzal","enano","mariano","testuser1","testuser2","testuser3"];
 	for(var i=0;i<cant_jobs;i++){
 		indice_user=parseInt(Math.random()*usr.length)
-		cant_msgs=parseInt(Math.random()*100)+50
+		cant_msgs=parseInt(Math.random()*6)+3
 		fecha=parseInt(Date.now()/1000-Math.random()*2000);
 		job.insert_job(i+1,usr[indice_user],fecha,"Prueba " + i,cant_msgs,1,function(data){
 			console.log('JOB: ' + data.nro + ' Insertado OK');
@@ -35,4 +35,4 @@ function jobs(cant_jobs){
 }	
 
 
-jobs(8)
+jobs(3)

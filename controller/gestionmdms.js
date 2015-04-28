@@ -1,7 +1,7 @@
 var config = require('../config/config');
 
 
-var CANT_MDM = 20;
+var CANT_MDM = 2;
 
 
 
