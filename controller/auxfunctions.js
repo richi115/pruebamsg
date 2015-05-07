@@ -45,6 +45,7 @@ exports.ponderacion=function(jobs,totalmsg_por_loop){
 			faltante=cant_msg_job-msg_asignados
 			if(faltante<=sobrante){
 				jobs[i].msg_a_enviar=cant_msg_job
+				jobs[i].status=2  // indico que el job queda finalizado con este envio
 				sobrante=sobrante-faltante
 				} else {
 				jobs[i].msg_a_enviar=msg_asignados+sobrante
@@ -56,7 +57,8 @@ exports.ponderacion=function(jobs,totalmsg_por_loop){
 			i--
 			cant_jobs--
 		}
-	}	
+	}
+	return jobs
 }
 
 

@@ -14,13 +14,13 @@ exports.procesar_cola_msg = function(modems,mensajes,callback){
 }
 
 function enviar_msg(pos_mdm,pos_msg,modems,mensajes,callback){
-	var rand=parseInt(Math.random()*3000)+1000
+	var rand=parseInt(Math.random()*50)+50
 	modems[pos_mdm].sta=1
 	if(pos_msg<mensajes.length){
 		mensajes[pos_msg].sta=1
-		console.log('Enviado msg '+mensajes[pos_msg].id+' por mdm '+modems[pos_mdm].mdm)
 		//Aqui hago la llamada al modem asignado y espero la vuelta para emitir el siguiente evento
 		setTimeout(function(){
+			console.log('Enviado msg '+mensajes[pos_msg].id+' por mdm '+modems[pos_mdm].mdm)
 			modems[pos_mdm].sta=0
 			emisor.emit('modemlibre')
 			},rand)

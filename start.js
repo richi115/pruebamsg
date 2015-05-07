@@ -14,12 +14,30 @@ var mdm_rescan=10000
 var act_mdms=[]
 
 
+function buscar_nuevos(){
+	job.count_pending_jobs(function(cantidad){
+		var ahora=parseInt(Date.now()/1000)
+		if(cantidad){
+			setTimeout(function(){
+				carga_modems()
+			},0)
+		} else {
+			while(parseInt(Date.now()/1000)<ahora+5){}
+			console.log('Esperando nuevos jobs...')
+			setTimeout(function(){
+				buscar_nuevos()
+			},0)
+		}
+	})
+}
+
+
 function guardar_estado(mensajes,jobs){
 	updat.actualizar_msg(mensajes,function(){
 		console.log('Estado de mensajes actualizado en BBDD')
 		updat.actualizar_job(jobs,function(){
 			console.log('Estado de jobs actualizado en BBDD')
-			carga_modems()
+			buscar_nuevos()
 		})
 	})
 }
@@ -37,10 +55,10 @@ function carga_msgs(modems,act_jobs){
 
 function carga_jobs(modems){
 	job.load_job(function(act_jobs){
-		var msg_por_job
+		var jobs_ponderados=[],i=0
 		console.log('Cargados ' + act_jobs.length + ' job(s)')
-		auxfunc.ponderacion(act_jobs,act_mdms.length*config.MSG_POR_MDM)
-		carga_msgs(modems,act_jobs)
+		jobs_ponderados=auxfunc.ponderacion(act_jobs,act_mdms.length*config.MSG_POR_MDM)
+		carga_msgs(modems,jobs_ponderados)
 	})
 }
 

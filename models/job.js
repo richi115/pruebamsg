@@ -10,7 +10,7 @@ var jobSchema = new Schema({
 	pendiente: Number,	//total de mensajes pendientes de enviar en el job
 	env_ok: Number,		//mensajes enviados OK
 	err_dst: Number,	//mensajes con error de destino
-	status: Number,		//estado del proceso (pendiente(0), finalizado(2))
+	status: Number,		//estado del proceso (pendiente(0), finalizado(2), cargando(9))
 	metodo: Number		//plat. de envio (plat. de distintos paises, diferenter carriers, etc)
 });
 var Job = mongoose.model('Job',jobSchema);
@@ -43,11 +43,27 @@ exports.load_job = function(callback){
                 })
 }
 
-exports.update_job = function(jobs,callback){
-	Job.findOne({_id:jobs._id},function(err,data){
-		data.status=jobs.status;
-		data.pendiente=data.pendiente-jobs.msg_a_enviar;
-		data.env_ok=data.env_ok+jobs.msg_a_enviar;
+
+exports.count_pending_jobs = function(callback){
+	Job.count({status:0},function(err,result){
+		contestar(err,result,callback);
+	})
+}
+
+exports.update_job = function(job,callback){
+	Job.findOne({nro:job.nro},function(err,data){
+		data.status=job.status;
+		data.pendiente=data.pendiente-job.msg_a_enviar;
+		data.env_ok=data.env_ok+job.msg_a_enviar;
+		data.save(function(err,data){
+                        contestar(err,data,callback)
+        });
+	});
+}
+
+exports.status_update_job = function(job,callback){
+	Job.findOne({nro:job.nro},function(err,data){
+		data.status=job.status;
 		data.save(function(err,data){
                         contestar(err,data,callback)
         });
