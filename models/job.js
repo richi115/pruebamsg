@@ -18,11 +18,29 @@ var Job = mongoose.model('Job',jobSchema);
 function contestar(err,data,callback){
 	if(err){
 		console.log(err);
+		//agregar escritura en log de errores
         }
 	else{
 		callback(data);
         }
 }
+
+
+exports.get_next_job = function(callback){
+	var query = Job
+		.find()
+		.sort({nro: -1})
+		.limit(1)
+//		.lean()
+		.exec(function(err,data){
+			if(data.length){
+				contestar(err,parseInt(data[0].nro+1),callback)
+			} else {
+				contestar(err,1,callback)
+			}
+		})
+}
+		
 
 exports.insert_job = function(nro,usr,inicio,coment,total_msg,metodo,callback){
 	var jobdata={nro:nro,usr:usr,inicio:inicio,coment:coment,pendiente:total_msg,env_ok:0,err_dst:0,status:0,metodo:metodo}

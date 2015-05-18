@@ -57,8 +57,13 @@ function carga_jobs(modems){
 	job.load_job(function(act_jobs){
 		var jobs_ponderados=[],i=0
 		console.log('Cargados ' + act_jobs.length + ' job(s)')
-		jobs_ponderados=auxfunc.ponderacion(act_jobs,act_mdms.length*config.MSG_POR_MDM)
-		carga_msgs(modems,jobs_ponderados)
+		if(act_jobs.length){
+			jobs_ponderados=auxfunc.ponderacion(act_jobs,act_mdms.length*config.MSG_POR_MDM)
+			carga_msgs(modems,jobs_ponderados)
+		} else {
+			buscar_nuevos()
+		}
+			
 	})
 }
 

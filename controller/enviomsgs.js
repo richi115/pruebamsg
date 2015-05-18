@@ -29,6 +29,7 @@ function enviar_msg(pos_mdm,modems,mensajes,callback){
 	modems[pos_mdm].sta=1			//indico que el modem esta en uso
 
 	//Aqui hago la llamada al modem asignado y espero la vuelta para emitir el siguiente evento
+	//Este es el callback que hay que pasarle a la funcion envio del mensaje al modem asignado
 	setTimeout(function(){
 		mensajes[pos_msg].sta=1
 		mensajes[pos_msg].imei=modems[pos_mdm].imei

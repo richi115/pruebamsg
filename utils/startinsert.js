@@ -2,9 +2,9 @@ var db = require('../db/db');
 var job = require('../models/job');
 var msg = require('../models/mensaje');
 
-var inicial=6
-var cant_trabajos=4
-var cant_mensajes=50
+var cant_trabajos=50
+var cant_mensajes=10
+
 
 
 //generar mensajes
@@ -34,9 +34,14 @@ function jobfunc(job_id,cant_msg){
 	})
 }
 
-var maximo=cant_trabajos+inicial
-for(;inicial<maximo;inicial++){
-	mensajes(inicial,cant_mensajes,jobfunc)
+job.get_next_job(function(inicial){
+	var maximo=cant_trabajos+inicial
+	for(;inicial<maximo;inicial++){
+		mensajes(inicial,cant_mensajes,jobfunc)
 }
+
+
+})
+
 	
 
