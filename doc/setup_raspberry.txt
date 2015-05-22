@@ -1,6 +1,8 @@
 setup
 +++++
 
+
+pacman -Syyu          //actualización del sistema entero y la bbdd de paquetes local
 pacman -S git
 pacman -S node
 pacman -S npm
@@ -9,6 +11,7 @@ pacman -S make
 pacman -S gcc
 pacman -S usb_modemswitch
 pacman -S screen
+
 
 cd /usr/bin/
 ln -s python2 python
