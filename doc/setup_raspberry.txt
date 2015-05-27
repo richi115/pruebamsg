@@ -1,6 +1,7 @@
 setup
 +++++
 
+pacman -Syyu
 pacman -S git
 pacman -S node
 pacman -S npm
